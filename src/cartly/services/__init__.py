@@ -1,3 +1,13 @@
+from src.cartly.services.catalog import (
+    CatalogConnectionError,
+    CatalogError,
+    InventoryProvider,
+    MockCatalogAdapter,
+    Recipe,
+    RecipeIngredient,
+    RestCatalogAdapter,
+    SKUNotFoundError,
+)
 from src.cartly.services.crm import (
     CRMConnectionError,
     CRMError,
@@ -34,4 +44,12 @@ __all__ = [
     "CRMError",
     "UserNotFoundError",
     "CRMConnectionError",
+    "CatalogError",
+    "SKUNotFoundError",
+    "CatalogConnectionError",
+    "RecipeIngredient",
+    "Recipe",
+    "InventoryProvider",
+    "MockCatalogAdapter",
+    "RestCatalogAdapter",
 ]
