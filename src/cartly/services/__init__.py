@@ -20,6 +20,11 @@ from src.cartly.services.crm import (
     UserNotFoundError,
     UserProfile,
 )
+from src.cartly.services.intent import (
+    INTENT_SYSTEM_PROMPT,
+    IntentParserError,
+    LiteLLMIntentParser,
+)
 from src.cartly.services.session import (
     BaseSessionStore,
     InMemorySessionStore,
@@ -52,4 +57,7 @@ __all__ = [
     "InventoryProvider",
     "MockCatalogAdapter",
     "RestCatalogAdapter",
+    "IntentParserError",
+    "LiteLLMIntentParser",
+    "INTENT_SYSTEM_PROMPT",
 ]
