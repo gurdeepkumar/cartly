@@ -1,3 +1,15 @@
+from src.cartly.services.crm import (
+    CRMConnectionError,
+    CRMError,
+    MockCRMAdapter,
+    PastOrder,
+    PastOrderItem,
+    RestCRMAdapter,
+    UserContext,
+    UserContextProvider,
+    UserNotFoundError,
+    UserProfile,
+)
 from src.cartly.services.session import (
     BaseSessionStore,
     InMemorySessionStore,
@@ -12,4 +24,14 @@ __all__ = [
     "RedisSessionStore",
     "SessionStoreError",
     "SessionNotFoundError",
+    "UserContextProvider",
+    "MockCRMAdapter",
+    "RestCRMAdapter",
+    "UserProfile",
+    "UserContext",
+    "PastOrder",
+    "PastOrderItem",
+    "CRMError",
+    "UserNotFoundError",
+    "CRMConnectionError",
 ]
