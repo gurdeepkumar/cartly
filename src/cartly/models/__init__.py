@@ -5,6 +5,11 @@ from src.cartly.models.schemas import (
     ChatRequest,
     ChatResponse,
     ChatSession,
+    CheckoutHandshakeRequest,
+    CheckoutHandshakeResponse,
+    CheckoutLineItem,
+    CheckoutPayload,
+    CheckoutStatus,
     IntentActionEnum,
     ParsedIntent,
     PendingClarification,
@@ -13,6 +18,7 @@ from src.cartly.models.schemas import (
 
 __all__ = [
     "IntentActionEnum",
+    "CheckoutStatus",
     "ChatMessage",
     "SKU",
     "CartItem",
@@ -22,4 +28,8 @@ __all__ = [
     "ChatSession",
     "ChatRequest",
     "ChatResponse",
+    "CheckoutLineItem",
+    "CheckoutPayload",
+    "CheckoutHandshakeRequest",
+    "CheckoutHandshakeResponse",
 ]

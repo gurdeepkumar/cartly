@@ -8,6 +8,12 @@ from src.cartly.services.catalog import (
     RestCatalogAdapter,
     SKUNotFoundError,
 )
+from src.cartly.services.checkout import (
+    CheckoutConnectionError,
+    CheckoutError,
+    CheckoutService,
+    EmptyBasketError,
+)
 from src.cartly.services.crm import (
     CRMConnectionError,
     CRMError,
@@ -67,4 +73,8 @@ __all__ = [
     "INTENT_SYSTEM_PROMPT",
     "CartlyState",
     "CartlyWorkflowEngine",
+    "CheckoutService",
+    "CheckoutError",
+    "EmptyBasketError",
+    "CheckoutConnectionError",
 ]

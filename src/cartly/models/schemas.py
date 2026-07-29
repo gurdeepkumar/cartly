@@ -14,6 +14,13 @@ class IntentActionEnum(str, Enum):
     CLARIFY = "CLARIFY"
 
 
+class CheckoutStatus(str, Enum):
+    PENDING = "PENDING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    CANCELLED = "CANCELLED"
+
+
 class ChatMessage(BaseModel):
     role: str = Field(
         description="Role of message sender: 'user', 'assistant', or 'system'"
@@ -177,4 +184,66 @@ class ChatResponse(BaseModel):
     actions_taken: List[str] = Field(
         default_factory=list,
         description="Summary of system actions executed during turn processing",
+    )
+
+
+class CheckoutLineItem(BaseModel):
+    sku_id: str = Field(description="Unique identifier for the SKU")
+    name: str = Field(description="Display name of the product")
+    quantity: float = Field(gt=0.0, description="Quantity of product in checkout")
+    unit_price: float = Field(ge=0.0, description="Unit price of product")
+    subtotal: float = Field(ge=0.0, description="Subtotal amount for line item")
+    unit: str = Field(default="unit", description="Measurement unit")
+    notes: Optional[str] = Field(
+        default=None, description="Special notes or substitution info"
+    )
+
+
+class CheckoutPayload(BaseModel):
+    checkout_id: str = Field(
+        default_factory=lambda: str(uuid4()),
+        description="Unique checkout identifier",
+    )
+    session_id: str = Field(description="Session ID associated with checkout")
+    user_id: str = Field(description="User ID associated with checkout")
+    store_id: str = Field(
+        default="default-supermarket", description="Target supermarket store ID"
+    )
+    items: List[CheckoutLineItem] = Field(
+        default_factory=list, description="Line items for supermarket checkout"
+    )
+    total_items: int = Field(ge=0, description="Total number of distinct items")
+    total_amount: float = Field(ge=0.0, description="Total checkout cost")
+    currency: str = Field(default="USD", description="Currency code")
+    status: CheckoutStatus = Field(
+        default=CheckoutStatus.PENDING, description="Checkout process status"
+    )
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        description="Checkout payload creation timestamp",
+    )
+    metadata: Dict[str, Any] = Field(
+        default_factory=dict, description="Arbitrary supermarket metadata"
+    )
+
+
+class CheckoutHandshakeRequest(BaseModel):
+    session_id: str = Field(description="Session ID to finalize and check out")
+    user_id: str = Field(description="User ID performing checkout")
+    store_id: Optional[str] = Field(
+        default="default-supermarket", description="Target supermarket store ID"
+    )
+    metadata: Optional[Dict[str, Any]] = Field(
+        default_factory=dict, description="Additional checkout parameters"
+    )
+
+
+class CheckoutHandshakeResponse(BaseModel):
+    success: bool = Field(description="Indicates if checkout handshake succeeded")
+    checkout_payload: CheckoutPayload = Field(
+        description="Converted supermarket checkout payload"
+    )
+    message: str = Field(description="Human readable outcome message")
+    confirmation_code: Optional[str] = Field(
+        default=None, description="Supermarket transaction confirmation code"
     )
