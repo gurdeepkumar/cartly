@@ -42,6 +42,9 @@ Output MUST be a JSON object matching this schema strictly:
   "clarify_reason": "<explanation if action is CLARIFY, else null>",
   "confidence": <float confidence score between 0.0 and 1.0>
 }
+
+Sampling Guidance:
+- Set temperature to 0.0 for deterministic output.
 """
 
 
@@ -205,7 +208,6 @@ class LiteLLMIntentParser:
                 kwargs: Dict[str, Any] = {
                     "model": model,
                     "messages": messages,
-                    "temperature": self.temperature,
                     "response_format": {"type": "json_object"},
                 }
                 if self.api_key:
@@ -242,7 +244,6 @@ class LiteLLMIntentParser:
                 kwargs: Dict[str, Any] = {
                     "model": model,
                     "messages": messages,
-                    "temperature": self.temperature,
                     "response_format": {"type": "json_object"},
                 }
                 if self.api_key:
