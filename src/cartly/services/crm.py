@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 import logging
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 import httpx
 
 from src.cartly.config import settings
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 logger = logging.getLogger(__name__)
 
@@ -41,10 +41,32 @@ class PastOrder(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc),
         description="Timestamp when order was placed",
     )
-    items: List[PastOrderItem] = Field(
+    items: List[Union[PastOrderItem, str]] = Field(
         default_factory=list, description="Items included in past order"
     )
     total_amount: float = Field(ge=0.0, description="Total amount for order")
+
+    @field_validator("items", mode="before")
+    @classmethod
+    def validate_items(cls, v: Any) -> List[Dict[str, Any]]:
+        if not isinstance(v, list):
+            return v
+
+        processed_items = []
+        for item in v:
+            if isinstance(item, str):
+                # Convert SKU ID string to a partial PastOrderItem dictionary
+                processed_items.append(
+                    {
+                        "sku_id": item,
+                        "name": "Unknown Product",
+                        "quantity": 1.0,
+                        "unit_price": 0.0,
+                    }
+                )
+            else:
+                processed_items.append(item)
+        return processed_items
 
 
 class UserProfile(BaseModel):
