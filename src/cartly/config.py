@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     # External Services
     CRM_BASE_URL: str = "http://localhost:8001"
     CATALOG_BASE_URL: str = "http://localhost:8002"
+    USE_REAL_ADAPTERS: bool = False
 
     # Application Limits & Settings
     RATE_LIMIT_PER_MINUTE: int = 60

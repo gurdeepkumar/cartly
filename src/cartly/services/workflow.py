@@ -3,6 +3,7 @@ import logging
 
 from langgraph.graph import END, StateGraph
 
+from src.cartly.config import settings
 from src.cartly.models.schemas import (
     CartItem,
     ChatMessage,
@@ -15,10 +16,17 @@ from src.cartly.models.schemas import (
     SKU,
     ShoppingBasket,
 )
-from src.cartly.services.catalog import InventoryProvider, MockCatalogAdapter
-from src.cartly.services.crm import UserContext, UserContextProvider, MockCRMAdapter
+from src.cartly.services.catalog import (
+    InventoryProvider,
+    RestCatalogAdapter,
+)
+from src.cartly.services.crm import (
+    UserContext,
+    UserContextProvider,
+    RestCRMAdapter,
+)
 from src.cartly.services.intent import LiteLLMIntentParser
-from src.cartly.services.session import BaseSessionStore, InMemorySessionStore
+from src.cartly.services.session import BaseSessionStore, RedisSessionStore
 
 logger = logging.getLogger(__name__)
 
@@ -52,9 +60,9 @@ class CartlyWorkflowEngine:
         catalog_adapter: Optional[InventoryProvider] = None,
         intent_parser: Optional[LiteLLMIntentParser] = None,
     ):
-        self.session_store = session_store or InMemorySessionStore()
-        self.crm_adapter = crm_adapter or MockCRMAdapter()
-        self.catalog_adapter = catalog_adapter or MockCatalogAdapter()
+        self.session_store = session_store or RedisSessionStore()
+        self.crm_adapter = crm_adapter or RestCRMAdapter()
+        self.catalog_adapter = catalog_adapter or RestCatalogAdapter()
         self.intent_parser = intent_parser or LiteLLMIntentParser()
         self._graph = self._build_graph()
 

@@ -65,7 +65,7 @@ def format_basket(basket) -> str:
 
 
 async def cli_loop(
-    session_id: str = "cli-session-1", user_id: str = "user-123", verbose: bool = False
+    session_id: str = "cli-session-1", user_id: str = "user_123", verbose: bool = False
 ):
     engine = CartlyWorkflowEngine()
     checkout_service = CheckoutService(session_store=engine.session_store)

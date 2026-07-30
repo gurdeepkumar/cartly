@@ -2,7 +2,6 @@ from src.cartly.services.catalog import (
     CatalogConnectionError,
     CatalogError,
     InventoryProvider,
-    MockCatalogAdapter,
     Recipe,
     RecipeIngredient,
     RestCatalogAdapter,
@@ -17,7 +16,6 @@ from src.cartly.services.checkout import (
 from src.cartly.services.crm import (
     CRMConnectionError,
     CRMError,
-    MockCRMAdapter,
     PastOrder,
     PastOrderItem,
     RestCRMAdapter,
@@ -33,7 +31,6 @@ from src.cartly.services.intent import (
 )
 from src.cartly.services.session import (
     BaseSessionStore,
-    InMemorySessionStore,
     RedisSessionStore,
     SessionNotFoundError,
     SessionStoreError,
@@ -46,12 +43,10 @@ from src.cartly.services.workflow import (
 
 __all__ = [
     "BaseSessionStore",
-    "InMemorySessionStore",
     "RedisSessionStore",
     "SessionStoreError",
     "SessionNotFoundError",
     "UserContextProvider",
-    "MockCRMAdapter",
     "RestCRMAdapter",
     "UserProfile",
     "UserContext",
@@ -66,7 +61,6 @@ __all__ = [
     "RecipeIngredient",
     "Recipe",
     "InventoryProvider",
-    "MockCatalogAdapter",
     "RestCatalogAdapter",
     "IntentParserError",
     "LiteLLMIntentParser",
