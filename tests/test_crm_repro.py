@@ -32,3 +32,14 @@ def test_past_order_item_validation_success_with_dict():
     order = PastOrder.model_validate(data)
     assert order.items[0].sku_id == "prod_001"
     assert order.items[0].name == "Product 1"
+
+
+def test_past_order_handles_missing_total_amount():
+    # This simulates the new error report where total_amount is missing
+    data = {"order_id": "order-001", "items": ["prod_001", "prod_004"]}
+
+    order = PastOrder.model_validate(data)
+    assert order.order_id == "order-001"
+    assert order.total_amount == 0.0
+    assert len(order.items) == 2
+    assert order.items[1].sku_id == "prod_004"

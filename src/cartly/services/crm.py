@@ -44,7 +44,9 @@ class PastOrder(BaseModel):
     items: List[Union[PastOrderItem, str]] = Field(
         default_factory=list, description="Items included in past order"
     )
-    total_amount: float = Field(ge=0.0, description="Total amount for order")
+    total_amount: float = Field(
+        default=0.0, ge=0.0, description="Total amount for order"
+    )
 
     @field_validator("items", mode="before")
     @classmethod
